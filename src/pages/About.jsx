@@ -106,12 +106,15 @@ function About() {
         </HelpParagraph>
         <HelpParagraph>
           <strong>Adopt:</strong> If you’re ready to bring a new furry friend into your home, check out our available dogs.<br />
-          <strong>Donate:</strong> Your generous donations help cover the cost of veterinary care, food, shelter, and more (Note: The donations section of this website is part of a fictional project for educational purposes and is not intended for real donations.).<br />
+          <strong>Donate:</strong> Your generous donations help cover the cost of veterinary care, food, shelter, and more (Note: The donations section of this website is part of a fictional project for educational purposes and is not intended for real donations).<br />
           <strong>Volunteer:</strong> We’re always in need of volunteers to help with events, fostering dogs, and spreading awareness.<br />
           <strong>Spread the Word:</strong> Share our mission with your friends and family to help us reach more people who can make a difference.
         </HelpParagraph>
       </HelpSection>
+
+      <p>Note: The entire web page is dedicated for education purposes, and is a part of a school project.</p>
     </AboutContainer>
+    
   );
 }
 
