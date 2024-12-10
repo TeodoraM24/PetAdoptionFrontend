@@ -62,7 +62,7 @@ function TopMenu() {
           <StyledNavLink to="/adoption">Adoption</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/appointment">Appointment</StyledNavLink>
+          <StyledNavLink to="/apointment">Appointment</StyledNavLink>
         </li>
         <li>
           <StyledNavLink to="/dogs">Dogs</StyledNavLink>

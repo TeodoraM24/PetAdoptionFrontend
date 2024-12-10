@@ -112,7 +112,7 @@ function About() {
         </HelpParagraph>
       </HelpSection>
 
-      <p>Note: The entire web page is dedicated for education purposes, and is a part of a school project.</p>
+      <p>Note: The entire web page is dedicated for educational purposes, and is a part of a school project.</p>
     </AboutContainer>
     
   );
