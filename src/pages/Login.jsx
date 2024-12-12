@@ -1,16 +1,10 @@
-import { NavLink } from 'react-router';
+
+import LoginComponent from '../components/LoginComponent'; // Adjust the import path if necessary
 
 function Login() {
   return (
     <div>
-      <h1>Login</h1>
-      {/* Login Form */}
-      <form>
-        <input type="email" placeholder="Email" />
-        <input type="password" placeholder="Password" />
-        <button type="submit">Login</button>
-      </form>
-      <p> Don't have an account? <NavLink to="/signup">Sign up here</NavLink></p>
+      <LoginComponent /> {/* Render LoginComponent here */}
     </div>
   );
 }

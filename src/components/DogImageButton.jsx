@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router';  
 import styled from 'styled-components';
-import logo from '../DogButton.png';  // Import the logo correctly
+import logo from '../images/DogButton.png';  // Import the logo correctly
 
 const ImageButtonWrapper = styled.div`
   display: inline-block;

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import DogImageButton from '../components/DogImageButton';
-import HomePageImage from '../Nielsen.png';  // Import the image from the src folder
+import HomePageImage from '../images/Nielsen.png';  // Import the image from the src folder
 import { NavLink } from 'react-router'; // Import NavLink for routing
 
 // Use a sophisticated font such as Merriweather

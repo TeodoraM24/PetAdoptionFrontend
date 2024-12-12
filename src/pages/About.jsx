@@ -3,55 +3,81 @@ import Video from '../videos/Video.mp4'; // Import the video from the src/videos
 
 // Styled components for About page text
 const AboutTitle = styled.h1`
-  font-size: 2.5rem; /* Adjust title font size */
-  color: #333; /* Dark text color */
-  font-weight: 700; /* Bold for emphasis */
-  margin-bottom: 30px; /* Add more space below the title */
+  font-size: 2.8rem;
+  color: #333; /* Dark grey for the title */
+  font-weight: 700;
+  margin-bottom: 30px;
   text-align: center;
-  font-family: 'Merriweather', serif; /* Use a more sophisticated font */
+  font-family: 'Merriweather', serif;
 `;
 
 const AboutParagraph = styled.p`
-  font-size: 1.1rem; /* Slightly larger text for better readability */
-  color: #4a4a4a; /* A dark gray color for readability */
-  line-height: 1.6;
-  margin-top: 15px; /* Add margin to space out paragraphs */
-  text-align: justify; /* Justify text for a clean look */
-  max-width: 800px; /* Limit width to improve readability */
+  font-size: 1.2rem;
+  color: #555; /* Lighter grey for better readability */
+  line-height: 1.7;
+  margin-top: 20px;
+  text-align: justify;
+  max-width: 800px;
   margin-left: auto;
-  margin-right: auto; /* Center-align the text */
+  margin-right: auto;
   font-family: 'Merriweather', serif;
+  padding: 0 15px;
 `;
 
 const VideoContainer = styled.div`
-  text-align: center; /* Center-align video */
-  margin-top: 30px;
+  text-align: center;
+  margin-top: 40px;
   max-width: 100%;
-  width: 100%; /* Ensure it is responsive */
+  width: 100%;
 `;
 
 const SectionHeader = styled.h2`
-  font-size: 1.8rem; /* Slightly smaller for section headers */
-  color: #6a4e9f; /* Complementary purple color */
+  font-size: 2rem;
+  color: #2c3e50; /* Darker navy blue for text */
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: center;
   font-family: 'Merriweather', serif;
+  cursor: pointer;
+  position: relative;
+
+  &:hover {
+    color: #34495e; /* Slightly lighter shade for hover */
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: #95a5a6; /* Soft grey line */
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
 `;
 
 const HelpSection = styled.div`
-  margin-top: 40px;
+  margin-top: 60px;
   text-align: center;
   background-color: #f8f8f8;
-  padding: 40px;
+  padding: 50px;
   border-radius: 8px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
 `;
 
 const HelpParagraph = styled.p`
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   color: #333;
   line-height: 1.6;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
@@ -62,6 +88,14 @@ const HelpParagraph = styled.p`
 const AboutContainer = styled.div`
   padding: 20px;
   background-color: #fff;
+`;
+
+const NoteText = styled.p`
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 40px;
+  text-align: center;
+  font-family: 'Merriweather', serif;
 `;
 
 function About() {
@@ -81,6 +115,7 @@ function About() {
         </video>
       </VideoContainer>
 
+      {/* Section headers with hover effects */}
       <SectionHeader>What is our mission?</SectionHeader>
       <AboutParagraph>
         At AdoptTheFloof, we believe that every dog deserves a loving home. Our mission is to rescue street dogs and provide them with a second chance at life. By connecting these amazing animals with compassionate families, we aim to make the world a better place, one adoption at a time.
@@ -112,9 +147,8 @@ function About() {
         </HelpParagraph>
       </HelpSection>
 
-      <p>Note: The entire web page is dedicated for educational purposes, and is a part of a school project.</p>
+      <NoteText>Note: The entire web page is dedicated for educational purposes, and is a part of a school project.</NoteText>
     </AboutContainer>
-    
   );
 }
 

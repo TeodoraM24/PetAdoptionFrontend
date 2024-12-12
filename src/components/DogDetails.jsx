@@ -69,13 +69,9 @@ const DogDetail = () => {
   const [dog, setDog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // You can replace this with context or localStorage check
+  const [isLoggedIn, setIsLoggedIn] = useState(apiFacade.loggedIn()); // Check logged-in status via apiFacade
 
   useEffect(() => {
-    // Mock login check, replace with actual login check
-    const userStatus = localStorage.getItem('userLoggedIn');
-    setIsLoggedIn(userStatus === 'true');
-
     const fetchDogDetail = async () => {
       try {
         const dogData = await apiFacade.fetchDogDetails(id);
@@ -111,7 +107,7 @@ const DogDetail = () => {
       <DetailText><DetailLabel>Status:</DetailLabel> {dog.status}</DetailText>
       <DetailText><DetailLabel>Description:</DetailLabel> {dog.description}</DetailText>
       
-      
+      {isLoggedIn && (
         <>
           <ButtonContainer>
             <button>Adoption</button>
@@ -122,7 +118,7 @@ const DogDetail = () => {
             This will help us and you determine if you're a good match for each other.
           </InfoText>
         </>
-      
+      )}
     </DogDetailContainer>
   );
 };
