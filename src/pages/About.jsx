@@ -4,16 +4,17 @@ import Video from '../videos/Video.mp4'; // Import the video from the src/videos
 // Styled components for About page text
 const AboutTitle = styled.h1`
   font-size: 2.8rem;
-  color: #333; /* Dark grey for the title */
+  color: var(--text-color-light); /* Use the light text color from global styles */
   font-weight: 700;
   margin-bottom: 30px;
   text-align: center;
   font-family: 'Merriweather', serif;
+  letter-spacing: 2px; /* Slightly spaced for a more elegant feel */
 `;
 
 const AboutParagraph = styled.p`
   font-size: 1.2rem;
-  color: #555; /* Lighter grey for better readability */
+  color: var(--text-color-light); /* Lighter text for readability */
   line-height: 1.7;
   margin-top: 20px;
   text-align: justify;
@@ -22,6 +23,7 @@ const AboutParagraph = styled.p`
   margin-right: auto;
   font-family: 'Merriweather', serif;
   padding: 0 15px;
+  font-weight: 400; /* Softer font weight for better readability */
 `;
 
 const VideoContainer = styled.div`
@@ -39,50 +41,39 @@ const VideoContainer = styled.div`
 `;
 
 const SectionHeader = styled.h2`
-  font-size: 2rem;
-  color: #2c3e50; /* Darker navy blue for text */
-  font-weight: bold;
-  margin-top: 40px;
+  font-size: 2.2rem;
+  color: var(--pastel-purple); /* Use pastel purple color for the header */
+  font-weight: 600;
+  margin-top: 50px; /* Larger margin for a cleaner break between sections */
   text-align: center;
   font-family: 'Merriweather', serif;
   cursor: pointer;
   position: relative;
+  padding-bottom: 5px;
+  border-bottom: 2px solid var(--pastel-purple); /* Soft underline for added emphasis */
 
   &:hover {
-    color: #34495e; /* Slightly lighter shade for hover */
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background-color: #95a5a6; /* Soft grey line */
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-in-out;
-  }
-
-  &:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
+    color: var(--hover-color); /* Lighter shade for hover */
   }
 `;
 
 const HelpSection = styled.div`
   margin-top: 60px;
   text-align: center;
-  background-color: #f8f8f8;
+  background-color: var(--hover-color); /* Lighter hover color as background */
   padding: 50px;
   border-radius: 8px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease; /* Smooth transition for hover effect */
+
+  &:hover {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
 `;
 
 const HelpParagraph = styled.p`
   font-size: 1.2rem;
-  color: #333;
+  color: var(--text-color-light); /* Dark text color for readability */
   line-height: 1.6;
   margin-bottom: 25px;
   max-width: 900px;
@@ -93,16 +84,22 @@ const HelpParagraph = styled.p`
 `;
 
 const AboutContainer = styled.div`
-  padding: 20px;
-  background-color: #fff;
+  padding: 40px 20px;
+  background-color: var(--body-background); /* White background */
+  max-width: 1200px;
+  margin: 0 auto; /* Centering the content */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  border-radius: 10px;
+  margin-top: 40px;
 `;
 
 const NoteText = styled.p`
   font-size: 0.9rem;
-  color: #555;
+  color: var(--text-color-light); /* Light text color */
   margin-top: 40px;
   text-align: center;
   font-family: 'Merriweather', serif;
+  font-weight: 300; /* Lighter font for the note */
 `;
 
 function About() {

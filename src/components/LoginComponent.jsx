@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router';
+import { NavLink, useNavigate } from 'react-router'; // Using react-router as requested
 import styled from 'styled-components';
 import apiFacade from '../util/apiFacade'; // Adjust path as necessary
 
@@ -8,7 +8,7 @@ const Container = styled.div`
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
-  background-color:  #fdf9fc;;
+  background-color:  #fdf9fc;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -16,7 +16,7 @@ const Container = styled.div`
 
 const Title = styled.h1`
   font-size: 2rem;
-  color: var(--text-color-light); /* Use global text color */
+  color: var(--text-color-light);
   margin-bottom: 20px;
 `;
 
@@ -28,7 +28,7 @@ const Form = styled.form`
 
 const Input = styled.input`
   padding: 10px;
-  border: 1px solid var(--pastel-purple); /* Use global pastel purple */
+  border: 1px solid var(--pastel-purple);
   border-radius: 5px;
   font-size: 1rem;
   width: 100%;
@@ -36,12 +36,12 @@ const Input = styled.input`
   &:focus {
     border-color: var(--pastel-purple);
     outline: none;
-    box-shadow: 0 0 5px rgba(186, 104, 200, 0.5); /* Purple glow */
+    box-shadow: 0 0 5px rgba(186, 104, 200, 0.5);
   }
 `;
 
 const Button = styled.button`
-  background-color: var(--pastel-purple); /* Global pastel purple */
+  background-color: var(--pastel-purple);
   border: none;
   color: var(--text-color-light);
   padding: 0.5rem 1rem;
@@ -49,7 +49,7 @@ const Button = styled.button`
   cursor: pointer;
   transition: background-color 0.3s;
   &:hover {
-    background-color: var(--hover-color); /* Lighter color when hovered */
+    background-color: var(--hover-color);
   }
 `;
 
@@ -61,15 +61,40 @@ const ErrorMessage = styled.p`
 const InfoText = styled.p`
   margin-top: 15px;
   font-size: 0.9rem;
-  color: var(--text-color-light); /* Use global text color */
+  color: var(--text-color-light);
 `;
 
 const StyledNavLink = styled(NavLink)`
-  color: var(--pastel-purple); /* Use global pastel purple */
+  font-size: 1.0rem;
+  color: #d8bfd8; /* Purple color by default */
   text-decoration: none;
+  margin-top: 20px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+
   &:hover {
-    text-decoration: underline;
-    color: var(--hover-color); /* Lighter hover effect */
+    color: #e6d5e6; /* Lighter shade of purple for hover */
+  }
+`;
+
+const AuthLinks = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const AuthLink = styled(NavLink)`
+  font-size: 1.0rem;
+  color: #d8bfd8; /* Purple color by default */
+  text-decoration: none;
+  padding: 0.5rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #e6d5e6; /* Lighter purple for hover */
+    text-decoration: underline; /* Underline effect on hover */
   }
 `;
 
@@ -77,7 +102,7 @@ function LoginComponent() {
   const [loginCredentials, setLoginCredentials] = useState({ username: '', password: '' });
   const [isLoggedIn, setIsLoggedIn] = useState(apiFacade.loggedIn()); // Check login state initially
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate(); // Hook for navigation
+  const navigate = useNavigate();
 
   // Perform login
   const performLogin = (evt) => {
@@ -137,7 +162,14 @@ function LoginComponent() {
           <Button type="submit">Login</Button>
         </Form>
       ) : (
-        <Button onClick={performLogout}>Logout</Button>
+        <AuthLinks>
+          {/* NavLinks for Appointment and Adoption styled as "Learn More" */}
+          <AuthLink to="/appointment">Appointments</AuthLink>
+          <AuthLink to="/adoption">Adoption</AuthLink>
+          
+          {/* Logout Button */}
+          <Button onClick={performLogout}>Logout</Button>
+        </AuthLinks>
       )}
 
       {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

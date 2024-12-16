@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router';
 import styled from 'styled-components';
 import logo from '../images/Logo.png'; // Replace with the actual path to your logo image
+import loginIcon from '../images/login.png'; // Replace with the actual path to your login icon image
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -40,6 +41,19 @@ const StyledNavLink = styled(NavLink)`
   }
 `;
 
+const NoHoverLink = styled(NavLink)`
+  text-decoration: none;
+  &:hover {
+    background-color: transparent; /* No background change */
+    color: inherit; /* Keep the original color */
+  }
+`;
+
+const LoginIcon = styled.img`
+  width: 45px; /* Adjust size of the login icon */
+  height: 45px; /* Maintain aspect ratio */
+`;
+
 function TopMenu() {
   // Retrieve the user role from sessionStorage
   const userRole = sessionStorage.getItem('userRole');
@@ -61,24 +75,13 @@ function TopMenu() {
         <li>
           <StyledNavLink to="/about">About</StyledNavLink>
         </li>
-
-        {/* Conditionally render "Adoption" and "Appointment" based on user role */}
-        {userRole === 'admin' && (
-          <>
-            <li>
-              <StyledNavLink to="/adoption">Adoption</StyledNavLink>
-            </li>
-            <li>
-              <StyledNavLink to="/appointment">Appointment</StyledNavLink>
-            </li>
-          </>
-        )}
-
         <li>
           <StyledNavLink to="/dogs">Dogs</StyledNavLink>
         </li>
         <li>
-          <StyledNavLink to="/login">Login</StyledNavLink>
+          <NoHoverLink to="/login">
+            <LoginIcon src={loginIcon} alt="Login" />
+          </NoHoverLink>
         </li>
       </StyledMenu>
     </HeaderWrapper>

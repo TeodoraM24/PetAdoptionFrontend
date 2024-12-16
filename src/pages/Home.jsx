@@ -20,12 +20,20 @@ const TextOverlay = styled.div`
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 300px;  /* Adjust height as needed */
-  background-image: url(${HomePageImage});  /* Use the imported image */
+  height: 300px;  /* Default height */
+  background-image: url(${HomePageImage});
   background-size: cover;
-  background-position: top center;  /* Move the image upwards */
+  background-position: top center; /* Move the image upwards */
   opacity: 0.7; /* Slight transparency */
-  margin-top: 0; /* Make sure there is no margin on top */
+  margin-top: 0;
+
+  @media (max-width: 768px) {
+    height: 250px;  /* Adjust height on medium screens */
+  }
+
+  @media (max-width: 480px) {
+    height: 200px;  /* Adjust height on smaller screens */
+  }
 `;
 
 const ContentWrapper = styled.div`
@@ -50,6 +58,10 @@ const MissionContainer = styled.div`
   @media (max-width: 768px) {
     flex-direction: column;
     align-items: center;
+  }
+
+  @media (max-width: 480px) {
+    width: 90%;
   }
 `;
 
