@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router';
 import styled from 'styled-components';
-import logo from '../Logo.png'; // Replace with the actual path to your logo image
+import logo from '../images/Logo.png'; // Replace with the actual path to your logo image
 
 const HeaderWrapper = styled.header`
   display: flex;
@@ -41,6 +41,9 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 function TopMenu() {
+  // Retrieve the user role from sessionStorage
+  const userRole = sessionStorage.getItem('userRole');
+  
   return (
     <HeaderWrapper>
       {/* Logo aligned to the left and scaled down */}
@@ -58,12 +61,19 @@ function TopMenu() {
         <li>
           <StyledNavLink to="/about">About</StyledNavLink>
         </li>
-        <li>
-          <StyledNavLink to="/adoption">Adoption</StyledNavLink>
-        </li>
-        <li>
-          <StyledNavLink to="/apointment">Appointment</StyledNavLink>
-        </li>
+
+        {/* Conditionally render "Adoption" and "Appointment" based on user role */}
+        {userRole === 'admin' && (
+          <>
+            <li>
+              <StyledNavLink to="/adoption">Adoption</StyledNavLink>
+            </li>
+            <li>
+              <StyledNavLink to="/appointment">Appointment</StyledNavLink>
+            </li>
+          </>
+        )}
+
         <li>
           <StyledNavLink to="/dogs">Dogs</StyledNavLink>
         </li>

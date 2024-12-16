@@ -1,9 +1,12 @@
+import DogList from '../components/DogList'; 
+
 function Dogs() {
-    return (    
-        <>
-        <h1>Dogs</h1>
-        </>
-     );
+  return (
+    <>
+
+      <DogList />  {/* Render the DogList component to show the dogs */}
+    </>
+  );
 }
 
 export default Dogs;
