@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { NavLink } from 'react-router';  // Use NavLink from react-router
+import { NavLink } from 'react-router';
 
-// Styled wrapper for the image and name overlay
+// Styled components
 const DogItemWrapper = styled.li`
   display: inline-block;
-  width: 250px;
+  width: 300px; /* Increased width */
   margin: 20px;
   border: 3px solid var(--pastel-purple);
   border-radius: 10px;
@@ -22,21 +22,19 @@ const DogItemWrapper = styled.li`
   }
 `;
 
-// Styled image container with text overlay
 const DogImageWrapper = styled.div`
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 250px; /* Increased height */
   overflow: hidden;
 `;
 
-// Styled text overlay for the dog's name
 const DogNameOverlay = styled.div`
   position: absolute;
   bottom: 10px;
   left: 10px;
   color: white;
-  font-size: 18px;
+  font-size: 20px; /* Increased font size */
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   background-color: rgba(0, 0, 0, 0.5);
@@ -44,19 +42,30 @@ const DogNameOverlay = styled.div`
   border-radius: 5px;
 `;
 
-// Use className as a function that applies 'active' styles when the link is active
+// Helper function for images
+const getDogImage = (name) => {
+  // Convert the name to lowercase and replace spaces with underscores
+  const imageName = name.toLowerCase().replace(/\s+/g, '_');
+  // Construct the path relative to public folder
+  return `/images/${imageName}.png`; // Image path in public folder
+};
+
 const DogItem = ({ dog }) => {
+  const imageUrl = getDogImage(dog.name);
+
+  // Fallback image handler in case of error
+  const handleImageError = (e) => {
+    e.target.src = '/images/default.png'; // Set the default image if the dog image fails to load
+  };
+
   return (
-    <NavLink
-      to={`/dog/${dog.id}`}  // Navigate to dog details page
-      style={{ textDecoration: 'none' }} // Ensures no underline
-      className={({ isActive }) => (isActive ? 'active' : '')} // Apply 'active' class when active
-    >
+    <NavLink to={`/dog/${dog.id}`} style={{ textDecoration: 'none' }}>
       <DogItemWrapper>
         <DogImageWrapper>
           <img
-            src={dog.image}
+            src={imageUrl} // Dynamically set image path
             alt={dog.name}
+            onError={handleImageError} // Fallback logic when image fails to load
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
           <DogNameOverlay>{dog.name}</DogNameOverlay>

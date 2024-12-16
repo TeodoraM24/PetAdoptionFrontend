@@ -25,10 +25,17 @@ const AboutParagraph = styled.p`
 `;
 
 const VideoContainer = styled.div`
-  text-align: center;
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center the video horizontally */
+  align-items: center; /* Vertically center the video */
   margin-top: 40px;
   max-width: 100%;
   width: 100%;
+  padding: 0 15px; /* Add some padding for responsiveness */
+
+  @media (max-width: 768px) {
+    padding: 0; /* Remove padding on smaller screens */
+  }
 `;
 
 const SectionHeader = styled.h2`
@@ -107,9 +114,9 @@ function About() {
         Here’s a video to help you learn more about our mission and the dogs we help!
       </AboutParagraph>
 
-      {/* Embed the video */}
+      {/* Embed the video in a flexbox container */}
       <VideoContainer>
-        <video width="800" controls style={{ margin: '20px 0' }}>
+        <video width="100%" controls style={{ maxWidth: '800px', width: '100%', height: 'auto' }}>
           <source src={Video} type="video/mp4" />
           Your browser does not support the video tag.
         </video>
