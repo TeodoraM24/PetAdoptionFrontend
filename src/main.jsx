@@ -8,7 +8,7 @@ import Home from './pages/Home.jsx';
 import Adoption from './pages/Adoption.jsx';
 import MainLayout from './layout/MainLayout.jsx';
 import About from './pages/About.jsx';
-import Apointment from './pages/Apointment.jsx';
+import Appointment from './pages/Appointment.jsx';
 import Dogs from './pages/Dogs.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
@@ -22,7 +22,7 @@ const router = createBrowserRouter(
       <Route index element={<Home />} />
       <Route path="about" element={<About />} />
       <Route path="adoption" element={<Adoption />} />
-      <Route path="apointment" element={<Apointment />} />
+      <Route path="appointment" element={<Appointment />} />
       <Route path="dogs" element={<Dogs />} />
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
