@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import  { useState } from "react";
+import { useNavigate } from "react-router";
 import { SignupContainer, InputField, Button } from "../styles/Signup.styles";
 import Logo from "../images/Logo.png";
 
@@ -22,7 +22,7 @@ function Signup() {
         }
 
         try {
-            const response = await fetch("http://localhost:3000/users", { // Remember to change the API 
+            const response = await fetch("http://localhost:7070/api/auth/register", { // Remember to change the API 
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -40,7 +40,7 @@ function Signup() {
             setSuccessMessage(`User ${data.username || username} created successfully!`);
 
             // Redirect to login after success
-            setTimeout(() => navigate("/"), 2000); // Rerouting to homepage, reroute loginpage later.
+            setTimeout(() => navigate("/login"), 2000); // Rerouting to homepage, reroute loginpage later.
         } catch (err) {
             setError("Failed to register. Please try again later.");
         }

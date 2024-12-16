@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams, useNavigate } from 'react-router'; // Import useNavigate
 import apiFacade from '../util/apiFacade';
 import styled from 'styled-components';
 
@@ -97,6 +97,7 @@ const DogDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(apiFacade.loggedIn()); // Check logged-in status via apiFacade
+  const navigate = useNavigate(); // Initialize the navigate function from React Router
 
   useEffect(() => {
     const fetchDogDetail = async () => {
@@ -120,6 +121,20 @@ const DogDetail = () => {
   // Fallback function for image load error
   const handleImageError = (e) => {
     e.target.src = '/images/default.png'; // Set the default image if the dog image fails to load
+  };
+
+  // Function to handle button click and navigate to Appointment page
+  const handleAppointment = () => {
+    navigate('/appointment', {
+      state: {
+        name: dog.name,
+        breed: dog.breed,
+        age: dog.age,
+        status: dog.status,
+        description: dog.description,
+        image: getDogImage(dog.name), // Pass the image path as well
+      },
+    });
   };
 
   if (loading) {
@@ -147,7 +162,7 @@ const DogDetail = () => {
               If you are interested in adopting, please make an appointment!
             </InfoText>
             <ButtonContainer>
-              <button>Appointment</button>
+              <button onClick={handleAppointment}>Appointment</button>
             </ButtonContainer>
           </>
         )}
