@@ -13,6 +13,7 @@ import Dogs from './pages/Dogs.jsx';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import Dog from './pages/Dog.jsx';
+import CreateDog from './components/CreateDog.jsx';
 
 
 // Define your routes with the createBrowserRouter
@@ -27,8 +28,7 @@ const router = createBrowserRouter(
       <Route path="login" element={<Login />} />
       <Route path="signup" element={<Signup />} />
       <Route path="dog/:id" element={<Dog /> } />
-
-      
+      <Route path="create-dog" element={<CreateDog />} />
       
     </Route>
   )

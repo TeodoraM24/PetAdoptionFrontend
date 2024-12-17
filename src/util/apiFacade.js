@@ -120,6 +120,64 @@ const apiFacade = {
     const roles = apiFacade.getUserRoles().split(',');
     return loggedIn && roles.includes(neededRole);
   },
+// In apiFacade.js
+createDog: async (dogData) => {
+  try {
+    console.log('Sending request to create dog with data:', dogData);  // Log the data being sent
+
+    const options = apiFacade.makeOptions('POST', dogData, true); // Ensure token is sent with request
+    const response = await fetch(`${API_URL}/dogs`, options); // Correct endpoint
+
+    // Log the raw response for debugging
+    console.log('Response received from backend:', response);
+
+    if (!response.ok) {
+      const errorResponse = await response.json(); // Log the response body for error details
+      console.error('Error response from backend:', errorResponse);
+      throw new Error('Failed to create dog');
+    }
+
+    const data = await response.json();
+    console.log('Successfully created dog:', data);
+    return data; // Return the response (created dog data or success message)
+  } catch (error) {
+    console.error('Error in creating dog:', error);
+    throw error; // Propagate error
+  }
+},
+
+  // Function to fetch adoption data (admin view - all adoptions)
+  fetchAdoptions: async () => {
+    try {
+      const options = apiFacade.makeOptions('GET', null, true);  // Ensure token is sent
+      const response = await fetch(`${API_URL}/adoption/`, options);  // Admin route
+      if (!response.ok) {
+        throw new Error('Failed to fetch adoption data');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch Adoptions Error:', error);
+      throw error;
+    }
+  },
+
+  // Function to fetch user adoption status
+  fetchUserAdoptionStatus: async (userId) => {
+    try {
+      const options = apiFacade.makeOptions('GET', null, true);  // Ensure token is sent
+      const response = await fetch(`${API_URL}/adoption/${userId}`, options);  // User-specific route
+      if (!response.ok) {
+        throw new Error('Failed to fetch user adoption status');
+      }
+      return await response.json();  // Return user-specific adoption data
+    } catch (error) {
+      console.error('Fetch User Adoption Status Error:', error);
+      throw error;
+    }
+  },
+ 
 };
+
+
 
 export default apiFacade;

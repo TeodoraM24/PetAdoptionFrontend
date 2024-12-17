@@ -1,9 +1,11 @@
-function PetAdoption() {
+import PetAdoption from "../components/PetAdoption";
+
+function Adoption() {
     return ( 
         <>
-        <h1>Adoption</h1>
+       <PetAdoption></PetAdoption>
         </>
      );
 }
 
-export default PetAdoption;
+export default Adoption;

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { NavLink } from 'react-router'; // Import NavLink from 'react-router' for react-router
 import DogItem from './DogItem';
 import SearchFilter from './SearchFilter';
 import apiFacade from '../util/apiFacade'; // Import the facade
@@ -12,6 +13,7 @@ const DogListContainer = styled.div`
   align-items: center;
   width: 100%;
   box-sizing: border-box;
+  position: relative; /* Make this the relative parent container */
 `;
 
 const Title = styled.h1`
@@ -60,6 +62,28 @@ const DogGrid = styled.div`
   }
 `;
 
+const AdminButtonContainer = styled.div`
+  margin-top: 20px; /* Adds space between the title and the button */
+  margin-bottom: 30px; /* Adds space between the button and the dog list */
+`;
+
+const AdminNavLink = styled(NavLink)`
+  display: inline-block;
+  background-color: #bfa5d8; /* Softer pastel purple */
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  text-align: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d0a6e0; /* Slightly lighter purple on hover */
+  }
+`;
+
 const DogList = () => {
   const [dogs, setDogs] = useState([]); // State to store fetched dogs
   const [loading, setLoading] = useState(true); // Loading state
@@ -67,6 +91,7 @@ const DogList = () => {
   const [searchQuery, setSearchQuery] = useState(''); // Search query for breed
   const [ageFilter, setAgeFilter] = useState(''); // Filter for age
   const [dogsToShow, setDogsToShow] = useState(9); // Dogs to show initially (9 dogs)
+  const [isAdmin, setIsAdmin] = useState(false); // State to check if user is admin
 
   // Fetch data when the component mounts
   useEffect(() => {
@@ -82,6 +107,13 @@ const DogList = () => {
     };
 
     fetchDogsData();
+
+    // Fetch user roles
+    const roles = apiFacade.getUserRoles();
+    console.log('Roles:', roles);  // Log roles to verify correct values
+
+    // Check if the user has an 'admin' role (case-insensitive check)
+    setIsAdmin(roles.toLowerCase().includes('admin'));  // Convert roles to lowercase before checking
   }, []);
 
   // Filter dogs based on breed, age, and availability status
@@ -118,6 +150,13 @@ const DogList = () => {
           dogs={dogs}
         />
       </SearchContainer>
+
+      {/* Show the NavLink button for Admin, below the title */}
+      {isAdmin && (
+        <AdminButtonContainer>
+          <AdminNavLink to="/create-dog">Go to Create Dog</AdminNavLink>
+        </AdminButtonContainer>
+      )}
 
       <DogGrid>
         {filteredDogs.slice(0, dogsToShow).map((dog) => (
