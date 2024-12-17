@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import { FormContainer, SubmitButton } from "../styles/Appointment.styles";
 import Logo from "../images/Logo.png";
 
