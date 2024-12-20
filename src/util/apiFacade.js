@@ -120,6 +120,22 @@ const apiFacade = {
     const roles = apiFacade.getUserRoles().split(',');
     return loggedIn && roles.includes(neededRole);
   },
+
+  getUsername: () => {
+    const token = apiFacade.getToken();
+    if (token) {
+      try {
+        // Decode the JWT token payload
+        const payloadBase64 = token.split('.')[1]; // JWT format: header.payload.signature
+        const decodedPayload = JSON.parse(atob(payloadBase64)); // Decode base64
+        return decodedPayload.username || ''; // Extract username field (adjust field name if needed)
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        return '';
+      }
+    }
+    return '';
+  },
 };
 
 export default apiFacade;

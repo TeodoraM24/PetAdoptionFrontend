@@ -79,6 +79,9 @@ function TopMenu() {
           <StyledNavLink to="/dogs">Dogs</StyledNavLink>
         </li>
         <li>
+          <StyledNavLink to="/adminAppointment">Admin Appointment</StyledNavLink>
+        </li>
+        <li>
           <NoHoverLink to="/login">
             <LoginIcon src={loginIcon} alt="Login" />
           </NoHoverLink>

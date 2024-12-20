@@ -132,6 +132,7 @@ const DogDetail = () => {
         age: dog.age,
         status: dog.status,
         description: dog.description,
+        id: dog.id,
         image: getDogImage(dog.name), // Pass the image path as well
       },
     });
