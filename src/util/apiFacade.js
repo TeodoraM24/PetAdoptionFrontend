@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:7070/api';
+const API_URL = 'https://petadoption.schoolwork.dk/api';
 
 const apiFacade = {
   // Function to set the token in localStorage
@@ -120,64 +120,103 @@ const apiFacade = {
     const roles = apiFacade.getUserRoles().split(',');
     return loggedIn && roles.includes(neededRole);
   },
-// In apiFacade.js
-createDog: async (dogData) => {
-  try {
-    console.log('Sending request to create dog with data:', dogData);  // Log the data being sent
 
-    const options = apiFacade.makeOptions('POST', dogData, true); // Ensure token is sent with request
-    const response = await fetch(`${API_URL}/dogs`, options); // Correct endpoint
-
-    // Log the raw response for debugging
-    console.log('Response received from backend:', response);
-
-    if (!response.ok) {
-      const errorResponse = await response.json(); // Log the response body for error details
-      console.error('Error response from backend:', errorResponse);
-      throw new Error('Failed to create dog');
-    }
-
-    const data = await response.json();
-    console.log('Successfully created dog:', data);
-    return data; // Return the response (created dog data or success message)
-  } catch (error) {
-    console.error('Error in creating dog:', error);
-    throw error; // Propagate error
-  }
-},
-
-  // Function to fetch adoption data (admin view - all adoptions)
-  fetchAdoptions: async () => {
+  // Function to create a dog
+  createDog: async (dogData) => {
     try {
-      const options = apiFacade.makeOptions('GET', null, true);  // Ensure token is sent
-      const response = await fetch(`${API_URL}/adoption/`, options);  // Admin route
+      console.log('Sending request to create dog with data:', dogData);  // Log the data being sent
+
+      const options = apiFacade.makeOptions('POST', dogData, true); // Ensure token is sent with request
+      const response = await fetch(`${API_URL}/dogs`, options); // Correct endpoint
+
+      // Log the raw response for debugging
+      console.log('Response received from backend:', response);
+
       if (!response.ok) {
-        throw new Error('Failed to fetch adoption data');
+        const errorResponse = await response.json(); // Log the response body for error details
+        console.error('Error response from backend:', errorResponse);
+        throw new Error('Failed to create dog');
       }
-      return await response.json();
+
+      const data = await response.json();
+      console.log('Successfully created dog:', data);
+      return data; // Return the response (created dog data or success message)
     } catch (error) {
-      console.error('Fetch Adoptions Error:', error);
-      throw error;
+      console.error('Error in creating dog:', error);
+      throw error; // Propagate error
     }
   },
 
   // Function to fetch user adoption status
   fetchUserAdoptionStatus: async (userId) => {
     try {
-      const options = apiFacade.makeOptions('GET', null, true);  // Ensure token is sent
-      const response = await fetch(`${API_URL}/adoption/${userId}`, options);  // User-specific route
+      const response = await fetch(`${API_URL}/adoption/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiFacade.getToken()}`,
+        },
+      });
+
       if (!response.ok) {
         throw new Error('Failed to fetch user adoption status');
       }
-      return await response.json();  // Return user-specific adoption data
-    } catch (error) {
-      console.error('Fetch User Adoption Status Error:', error);
-      throw error;
+
+      return await response.json();
+    } catch (err) {
+      console.error('Error in fetchUserAdoptionStatus:', err);
+      throw err;
     }
   },
- 
+
+  // Function to fetch all adoptions
+  fetchAdoptions: async () => {
+    try {
+      const response = await fetch(`${API_URL}/adoption`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiFacade.getToken()}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch adoptions');
+      }
+
+      return await response.json();
+    } catch (err) {
+      console.error('Error in fetchAdoptions:', err);
+      throw err;
+    }
+  },
+
+  // Function to create a new adoption
+  createAdoption: async (adoptionData) => {
+    try {
+      console.log("Creating adoption with data:", adoptionData); // Log the data being sent
+      const options = apiFacade.makeOptions('POST', adoptionData, true); // Ensure token is included
+      const response = await fetch(`${API_URL}/adoption/`, options); // Correct endpoint
+  
+      console.log('Response Status:', response.status);  // Log the response status
+      console.log('Response Headers:', response.headers);  // Log the response headers
+  
+      if (!response.ok) {
+        const errorResponse = await response.json(); // Attempt to parse error response from backend
+        console.error('Error response from backend:', errorResponse);
+        throw new Error(`Failed to create adoption: ${errorResponse.message || 'Unknown error'}`);
+      }
+  
+      const data = await response.json();
+      console.log('Successfully created adoption:', data);
+      return data; // Return the response (created adoption data or success message)
+    } catch (error) {
+      console.error('Create Adoption Error:', error);
+      throw error; // Propagate error
+    }
+  },
+  
+  
 };
-
-
 
 export default apiFacade;

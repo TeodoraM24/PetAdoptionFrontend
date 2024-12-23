@@ -84,6 +84,28 @@ const InfoText = styled.p`
   margin-top: 20px;
 `;
 
+const MessageText = styled.p`
+  font-size: 1rem;
+  color: #856404;  /* Softer, warm color (similar to an alert yellow) */
+  background-color: #fff3cd; /* Soft background color */
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ffeeba; /* Light border to match the background */
+  margin-top: 20px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Space between icon and text */
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const LockIcon = styled.span`
+  font-size: 1.2rem;
+  color: #856404;
+`;
+
 // Helper function for image path
 const getDogImage = (name) => {
   const imageName = name.toLowerCase().replace(/\s+/g, '_'); // Format the name
@@ -97,6 +119,7 @@ const DogDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(apiFacade.loggedIn()); // Check logged-in status via apiFacade
+  const [showMessage, setShowMessage] = useState(false); // State to control message visibility
   const navigate = useNavigate(); // Initialize the navigate function from React Router
 
   useEffect(() => {
@@ -125,16 +148,20 @@ const DogDetail = () => {
 
   // Function to handle button click and navigate to Appointment page
   const handleAppointment = () => {
-    navigate('/appointment', {
-      state: {
-        name: dog.name,
-        breed: dog.breed,
-        age: dog.age,
-        status: dog.status,
-        description: dog.description,
-        image: getDogImage(dog.name), // Pass the image path as well
-      },
-    });
+    if (isLoggedIn) {
+      navigate('/appointment', {
+        state: {
+          name: dog.name,
+          breed: dog.breed,
+          age: dog.age,
+          status: dog.status,
+          description: dog.description,
+          image: getDogImage(dog.name), // Pass the image path as well
+        },
+      });
+    } else {
+      setShowMessage(true); // Show message when the user is not logged in
+    }
   };
 
   if (loading) {
@@ -156,15 +183,23 @@ const DogDetail = () => {
         <DetailText><DetailLabel>Status:</DetailLabel> {dog.status}</DetailText>
         <DetailText><DetailLabel>Description:</DetailLabel> {dog.description}</DetailText>
         
+        <ButtonContainer>
+          <button onClick={handleAppointment}>Appointment</button>
+        </ButtonContainer>
+
+        {/* Show message when not logged in */}
+        {showMessage && !isLoggedIn && (
+          <MessageText>
+            <LockIcon>🔒</LockIcon> {/* Lock icon */}
+            You must be logged in to access this feature.
+          </MessageText>
+        )}
+
+        {/* Display additional info if logged in */}
         {isLoggedIn && (
-          <>
-            <InfoText>
-              If you are interested in adopting, please make an appointment!
-            </InfoText>
-            <ButtonContainer>
-              <button onClick={handleAppointment}>Appointment</button>
-            </ButtonContainer>
-          </>
+          <InfoText>
+            If you are interested in adopting, please make an appointment!
+          </InfoText>
         )}
       </DogTextContainer>
 
