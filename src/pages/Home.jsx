@@ -3,49 +3,48 @@ import { useState } from 'react';
 import DogImageButton from '../components/DogImageButton';
 import HomePageImage from '../images/Nielsen.png';  // Import the image from the src folder
 import { NavLink } from 'react-router'; // Import NavLink for routing
-import apiFacade from '../util/apiFacade'; // Assuming apiFacade is imported correctly
 
-// Use a sophisticated font such as Merriweather
+// Styled components for the page
 const TextOverlay = styled.div`
   position: absolute;
   top: 50%;
-  right: 10%; /* Adjust to move the text to the right */
-  transform: translate(0, -50%); /* Center vertically but stay aligned to the right */
-  color: #fff;  /* White text color */
-  font-size: 2.5rem; /* Adjust font size */
-  font-weight: 700;  /* Bold */
-  font-family: 'Merriweather', serif;  /* Sophisticated font */
-  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7); /* Optional text shadow for better readability */
+  right: 10%; 
+  transform: translate(0, -50%);
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: 700;
+  font-family: 'Merriweather', serif;
+  text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
   text-align: center;
 `;
 
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 300px;  /* Default height */
+  height: 300px;
   background-image: url(${HomePageImage});
   background-size: cover;
-  background-position: top center; /* Move the image upwards */
-  opacity: 0.7; /* Slight transparency */
+  background-position: top center;
+  opacity: 0.7;
   margin-top: 0;
 
   @media (max-width: 768px) {
-    height: 250px;  /* Adjust height on medium screens */
+    height: 250px;
   }
 
   @media (max-width: 480px) {
-    height: 200px;  /* Adjust height on smaller screens */
+    height: 200px;
   }
 `;
 
 const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Adjust this to top */
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  min-height: 100vh; /* Ensures content takes full height */
-  padding: 0; /* Avoid unwanted padding */
+  min-height: 100vh;
+  padding: 0;
   margin: 0;
 `;
 
@@ -68,75 +67,86 @@ const MissionContainer = styled.div`
 `;
 
 const LeftSide = styled.div`
-  width: 50%;  /* Adjust width to take up half */
+  width: 50%;
   padding-right: 20px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 
   @media (max-width: 768px) {
-    width: 100%; /* Full width on smaller screens */
+    width: 100%;
     text-align: center;
     padding-right: 0;
   }
 `;
 
 const RightSide = styled.div`
-  width: 50%; /* Adjust width to take up half */
+  width: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
 
   @media (max-width: 768px) {
-    width: 100%; /* Full width on smaller screens */
+    width: 100%;
     margin-top: 20px;
   }
 `;
 
 const LearnMoreLink = styled(NavLink)`
   font-size: 1.0rem;
-  color: #d8bfd8; /* Purple color by default */
+  color: #d8bfd8;
   text-decoration: none;
   margin-top: 20px;
   font-weight: bold;
   transition: color 0.3s ease;
 
   &:hover {
-    color: #e6d5e6; /* Lighter shade of purple for hover */
+    color: #e6d5e6;
   }
 `;
 
 const MissionTitle = styled.h2`
   font-size: 2rem;
-  color: #333; /* Dark text color */
+  color: #333;
 `;
 
 const ParagraphText = styled.p`
   font-size: 1rem;
-  color: #4a4a4a; /* Dark gray with a slightly warm tone */
+  color: #4a4a4a;
   line-height: 1.6;
   margin-top: 10px;
 `;
 
+// Role Assignment Section Styling
 const AdminRoleAssignmentContainer = styled.div`
   margin-top: 40px;
   padding: 20px;
   width: 80%;
   text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const RoleAssignmentButton = styled.button`
-  font-size: 1rem;
-  padding: 10px 20px;
+  font-size: 1.2rem;
+  padding: 15px 30px;
   background-color: #d8bfd8;
   color: #fff;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
     background-color: #e6d5e6;
+    transform: scale(1.05);
+  }
+
+  &:disabled {
+    background-color: #c6c6c6;
+    cursor: not-allowed;
   }
 `;
 
@@ -157,13 +167,26 @@ function Home() {
     setError(null);
 
     try {
-      // Call apiFacade to add the role
-      const response = await apiFacade.addRole('user', 'ADMIN'); // You can dynamically set 'user' or pass it from the UI
+      // Assuming the token contains user information or we can extract user info via backend
+      const response = await fetch('/auth/user/addrole', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          username: 'user', // Here you can set the username dynamically
+          role: 'ADMIN',
+        }),
+      });
 
-      // Successfully updated the role
+      if (!response.ok) {
+        throw new Error('Failed to assign role');
+      }
+
       alert('Role updated to ADMIN!');
     } catch (error) {
-      setError(error.message); // Display error if the role assignment fails
+      setError(error.message);
     } finally {
       setLoading(false);
     }
@@ -171,14 +194,11 @@ function Home() {
 
   return (
     <ContentWrapper>
-      {/* Image container with text overlay */}
       <ImageContainer>
         <TextOverlay>Find Your New Best Friend</TextOverlay>
       </ImageContainer>
 
-      {/* Mission Container with left and right sections */}
       <MissionContainer>
-        {/* Left side with About Us Text */}
         <LeftSide>
           <MissionTitle>Our Mission</MissionTitle>
           <ParagraphText>We are dedicated to giving street dogs in Serbia a second chance at a loving home.</ParagraphText>
@@ -186,11 +206,9 @@ function Home() {
           <ParagraphText>Our goal is to connect people with these amazing dogs who deserve a warm, loving family.</ParagraphText>
           <ParagraphText>Join us in making a difference and finding your new best friend today!</ParagraphText>
 
-          {/* Learn More link */}
           <LearnMoreLink to="/about">Learn More</LearnMoreLink>
         </LeftSide>
 
-        {/* Right side with Dog Image Button */}
         <RightSide>
           <DogImageButton />
         </RightSide>
