@@ -215,6 +215,34 @@ const apiFacade = {
       throw error; // Propagate error
     }
   },
+
+  // Function to assign a role to a user
+addRole: async (username, role) => {
+  try {
+    const token = apiFacade.getToken(); // Get the JWT token
+    if (!token) {
+      throw new Error('No token found, user is not logged in');
+    }
+
+    const payload = { username, role }; // Prepare the payload
+    const options = apiFacade.makeOptions('POST', payload, true); // Include token for authentication
+
+    const response = await fetch(`${API_URL}/auth/user/addrole`, options); // Send POST request to add role
+
+    if (!response.ok) {
+      const errorResponse = await response.json(); // Parse error response
+      throw new Error(`Failed to assign role: ${errorResponse.message || 'Unknown error'}`);
+    }
+
+    const data = await response.json();
+    console.log('Successfully assigned role:', data);
+    return data; // Return success response
+  } catch (error) {
+    console.error('Error in addRole:', error);
+    throw error; // Propagate error
+  }
+},
+
   
   
 };

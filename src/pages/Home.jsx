@@ -1,7 +1,9 @@
 import styled from 'styled-components';
+import { useState } from 'react';
 import DogImageButton from '../components/DogImageButton';
 import HomePageImage from '../images/Nielsen.png';  // Import the image from the src folder
 import { NavLink } from 'react-router'; // Import NavLink for routing
+import apiFacade from '../util/apiFacade'; // Assuming apiFacade is imported correctly
 
 // Use a sophisticated font such as Merriweather
 const TextOverlay = styled.div`
@@ -116,7 +118,57 @@ const ParagraphText = styled.p`
   margin-top: 10px;
 `;
 
+const AdminRoleAssignmentContainer = styled.div`
+  margin-top: 40px;
+  padding: 20px;
+  width: 80%;
+  text-align: center;
+`;
+
+const RoleAssignmentButton = styled.button`
+  font-size: 1rem;
+  padding: 10px 20px;
+  background-color: #d8bfd8;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #e6d5e6;
+  }
+`;
+
 function Home() {
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  // Get the JWT token from localStorage
+  const token = localStorage.getItem('jwt_token');
+  
+  const handleAddRole = async () => {
+    if (!token) {
+      alert('User is not logged in!');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Call apiFacade to add the role
+      const response = await apiFacade.addRole('user', 'ADMIN'); // You can dynamically set 'user' or pass it from the UI
+
+      // Successfully updated the role
+      alert('Role updated to ADMIN!');
+    } catch (error) {
+      setError(error.message); // Display error if the role assignment fails
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <ContentWrapper>
       {/* Image container with text overlay */}
@@ -143,6 +195,17 @@ function Home() {
           <DogImageButton />
         </RightSide>
       </MissionContainer>
+
+      {/* Admin Role Assignment Section */}
+      {token && (
+        <AdminRoleAssignmentContainer>
+          <h3>Click to Promote User to Admin</h3>
+          <RoleAssignmentButton onClick={handleAddRole} disabled={loading}>
+            {loading ? 'Updating Role...' : 'Assign Admin Role'}
+          </RoleAssignmentButton>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
+        </AdminRoleAssignmentContainer>
+      )}
     </ContentWrapper>
   );
 }
