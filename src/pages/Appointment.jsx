@@ -34,9 +34,9 @@ function Appointment() {
             };
 
             console.log("Request data:", requestData);
-            console.log("Backend URL: http://localhost:7070/api/appointment");
+            console.log("Backend URL: https://petadoption.schoolwork.dk/api/appointment");
 
-            const response = await fetch("http://localhost:7070/api/appointment", {
+            const response = await fetch("https://petadoption.schoolwork.dk/api/appointment", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
