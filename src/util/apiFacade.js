@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:7070/api';
+const API_URL = 'https://petadoption.schoolwork.dk/api';
 
 const apiFacade = {
   // Function to set the token in localStorage

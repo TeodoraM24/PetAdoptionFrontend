@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router'; // Using react-router as requested
+import { useEffect, useState } from 'react';
+import { NavLink, useNavigate } from 'react-router';
 import styled from 'styled-components';
-import apiFacade from '../util/apiFacade'; // Adjust path as necessary
+import apiFacade from '../util/apiFacade';
 
-// Styled components for the login form
+// Styled components remain unchanged
 const Container = styled.div`
   max-width: 400px;
   margin: 50px auto;
   padding: 20px;
-  background-color:  #fdf9fc;
+  background-color: #fdf9fc;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -53,6 +53,27 @@ const Button = styled.button`
   }
 `;
 
+const AuthLinks = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
+
+const AuthLink = styled(NavLink)`
+  font-size: 1.0rem;
+  color: #d8bfd8;
+  text-decoration: none;
+  padding: 0.5rem;
+  font-weight: bold;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: #e6d5e6;
+    text-decoration: underline;
+  }
+`;
+
 const ErrorMessage = styled.p`
   color: red;
   font-size: 0.9rem;
@@ -66,45 +87,31 @@ const InfoText = styled.p`
 
 const StyledNavLink = styled(NavLink)`
   font-size: 1.0rem;
-  color: #d8bfd8; /* Purple color by default */
+  color: #d8bfd8;
   text-decoration: none;
   margin-top: 20px;
   font-weight: bold;
   transition: color 0.3s ease;
 
   &:hover {
-    color: #e6d5e6; /* Lighter shade of purple for hover */
-  }
-`;
-
-const AuthLinks = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const AuthLink = styled(NavLink)`
-  font-size: 1.0rem;
-  color: #d8bfd8; /* Purple color by default */
-  text-decoration: none;
-  padding: 0.5rem;
-  font-weight: bold;
-  transition: color 0.3s ease;
-  
-  &:hover {
-    color: #e6d5e6; /* Lighter purple for hover */
-    text-decoration: underline; /* Underline effect on hover */
+    color: #e6d5e6;
   }
 `;
 
 function LoginComponent() {
   const [loginCredentials, setLoginCredentials] = useState({ username: '', password: '' });
-  const [isLoggedIn, setIsLoggedIn] = useState(apiFacade.loggedIn()); // Check login state initially
+  const [isLoggedIn, setIsLoggedIn] = useState(apiFacade.loggedIn());
+  const [isAdmin, setIsAdmin] = useState(false); // Track admin status
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
-  // Perform login
+  useEffect(() => {
+    if (isLoggedIn) {
+      const roles = apiFacade.getUserRoles(); // Fetch user roles from apiFacade
+      setIsAdmin(roles.toLowerCase().includes('admin')); // Check if the user is an admin
+    }
+  }, [isLoggedIn]);
+
   const performLogin = (evt) => {
     evt.preventDefault();
     apiFacade.login(
@@ -114,7 +121,7 @@ function LoginComponent() {
         if (loggedIn) {
           setIsLoggedIn(true);
           setErrorMessage('');
-          navigate('/'); // Redirect on success
+          navigate('/');
         } else {
           setErrorMessage('Login failed. Please check your credentials.');
         }
@@ -122,7 +129,6 @@ function LoginComponent() {
     );
   };
 
-  // Handle input changes
   const onChange = (evt) => {
     const { id, value } = evt.target;
     setLoginCredentials((prev) => ({
@@ -131,11 +137,11 @@ function LoginComponent() {
     }));
   };
 
-  // Handle logout
   const performLogout = () => {
     apiFacade.logout(() => {
       setIsLoggedIn(false);
-      navigate('/login'); // Redirect to login page
+      setIsAdmin(false); // Reset admin state
+      navigate('/login');
     });
   };
 
@@ -163,11 +169,8 @@ function LoginComponent() {
         </Form>
       ) : (
         <AuthLinks>
-          {/* NavLinks for Appointment and Adoption styled as "Learn More" */}
           <AuthLink to="/appointment">Appointments</AuthLink>
-          <AuthLink to="/adoption">Adoption</AuthLink>
-          
-          {/* Logout Button */}
+          {isAdmin && <AuthLink to="/adoption">Adoption</AuthLink>} {/* Conditional link */}
           <Button onClick={performLogout}>Logout</Button>
         </AuthLinks>
       )}
